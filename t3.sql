@@ -1,6 +1,8 @@
+--Создание пользователя и бд
 CREATE USER director WITH LOGIN NOSUPERUSER CREATEDB NOCREATEROLE NOINHERIT NOREPLICATION;
 CREATE DATABASE filmography;
 
+--Создание таблицы фильмов
 CREATE TABLE movies (
   movie_name VARCHAR(50) NOT NULL,
   movie_description TEXT NOT NULL,
@@ -13,6 +15,7 @@ CREATE TABLE movies (
   CONSTRAINT CK_movies_year CHECK ((EXTRACT(year FROM movie_year) > 1900) AND (EXTRACT(year FROM movie_year) < (EXTRACT(year FROM current_date)) + 10))
 );
 
+--Создание таблицы-предка ддя таблиц актеров и режиссеров
 CREATE TABLE person (
   person_surname VARCHAR(20) NOT NULL,
   person_name VARCHAR(20) NOT NULL,
@@ -20,6 +23,7 @@ CREATE TABLE person (
   person_motherland VARCHAR(20) NOT NULL
 );
 
+--Создание таблицы актеров на основе таблицы-предка
 CREATE TABLE actors (
   number_of_movies INTEGER NOT NULL,
   actor_id SERIAL NOT NULL,
@@ -27,11 +31,13 @@ CREATE TABLE actors (
   CONSTRAINT CK_number_of_movies CHECK (number_of_movies > 5)
 ) INHERITS (person);
 
+--Создание таблицы режиссеров на основе таблицы-предка
 CREATE TABLE directors (
   person_motherland VARCHAR(20) NOT NULL DEFAULT 'USA',
   director_id SERIAL PRIMARY KEY
 ) INHERITS (person);
 
+--Заполнение данными
 INSERT INTO movies (movie_name, movie_description, movie_year, movie_genres, movie_country, movie_budget) VALUES ('Movie 1', 'Desc 1', '1.1.2001', 'Genre 1', 'Russia', '5000000');
 INSERT INTO movies (movie_name, movie_description, movie_year, movie_genres, movie_country, movie_budget) VALUES ('Movie 2', 'Desc 2', '2.2.2002', 'Genre 2', 'Russia', '5000000');
 INSERT INTO movies (movie_name, movie_description, movie_year, movie_genres, movie_country, movie_budget) VALUES ('Movie 3', 'Desc 3', '3.3.2003', 'Genre 3', 'Russia', '5000000');
