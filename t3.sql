@@ -10,8 +10,8 @@ CREATE TABLE movies (
   movie_genres VARCHAR(50) NOT NULL,
   movie_country VARCHAR(50) NOT NULL,
   movie_budget MONEY NOT NULL,
-  CONSTRAINT PK_movies PRIMARY KEY (movie_name, movie_year),
-  CONSTRAINT CK_movies_budget CHECK (CAST(movie_budget AS NUMERIC) > 1000),
+  CONSTRAINT movies_pkey PRIMARY KEY (movie_name, movie_year),
+  CONSTRAINT CK_movies_budget CHECK (CAST(movie_budget AS NUMERIC) > 10000),
   CONSTRAINT CK_movies_year CHECK ((EXTRACT(year FROM movie_year) > 1900) AND (EXTRACT(year FROM movie_year) < (EXTRACT(year FROM current_date)) + 10))
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE person (
 --Создание таблицы актеров на основе таблицы-предка
 CREATE TABLE actors (
   number_of_movies INTEGER NOT NULL,
-  actor_id SERIAL NOT NULL,
+  actor_id SERIAL UNIQUE NOT NULL,
   CONSTRAINT PK_actors PRIMARY KEY (person_surname, person_name, person_birthday),
   CONSTRAINT CK_number_of_movies CHECK (number_of_movies > 5)
 ) INHERITS (person);
@@ -55,6 +55,6 @@ INSERT INTO directors (person_surname, person_name, person_birthday) VALUES ('Di
 INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '1.1.2001', 'Russia', '6');
 INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '2.2.2002', 'Russia', '8');
 INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '3.3.2003', 'Russia', '10');
-INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '4.4.2004', 'BeloRussia', '12');
+INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '4.4.2004', 'Russia', '12');
 INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('sss', 'sss', '5.5.2005', 'Russia', '14');
-INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('qq', 'qq', '6.6.2006', 'Tatarsstan', '8');
+INSERT INTO actors (person_surname, person_name, person_birthday, person_motherland, number_of_movies) VALUES ('qq', 'qq', '6.6.2006', 'Russia', '8');
