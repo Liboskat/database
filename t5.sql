@@ -146,4 +146,4 @@ CREATE TABLE room_to_function (
   kadastr VARCHAR(20) NOT NULL,
   function VARCHAR(30) NOT NULL,
   CONSTRAINT FK_function_room FOREIGN KEY (room_number, hall_number, kadastr) REFERENCES rooms (room_number, hall_number, kadastr)
-)
+) 
